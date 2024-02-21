@@ -3,14 +3,14 @@ pipeline {
   stages {
         stage('Checkout') {
             steps {
-               withCredentials([string(credentialsId: 'GitHub_Token', variable: 'github_token')]) {
+               
 
                 checkout([$class: 'GitSCM',
                           branches: [[name: '*/main']],
                                 extensions: [[$class: 'CleanCheckout']],
                                 userRemoteConfigs: [[url: 'https://github.com/chandanchanchal/terraform_azure_infra_tf_01']]
                        ])
-               }
+
             }
         }
 

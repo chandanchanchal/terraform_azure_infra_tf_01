@@ -1,0 +1,39 @@
+pipeline {
+  agent any
+  stages {
+        stage('Checkout') {
+            steps {
+               withCredentials([string(credentialsId: 'GitHub_Token', variable: 'github_token')]) {
+
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                                extensions: [[$class: 'CleanCheckout']],
+                                userRemoteConfigs: [[url: 'https://' + env.github_token + '@' + 'github.com/sk617/azure_infra_tf_01.git']]
+                       ])
+               }
+            }
+        }
+
+stage('Initialize Terraform Working Directory') {
+    steps{
+        script{
+          sh 'terraform init'
+          }
+      }
+  }
+stage('Terraform Plan') {
+    steps{
+        script{
+          sh 'terraform plan'
+          }
+     }
+  }
+stage('Terraform Apply') {
+    steps{
+       script{
+          sh 'terraform apply --auto-approve'
+          }
+       }
+    }
+  }        
+}

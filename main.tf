@@ -10,6 +10,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+tenant_id = "ee3a0a34-62b2-4838-8820-a479d62f67cc"
 }
 
 #Create a Resource Group
